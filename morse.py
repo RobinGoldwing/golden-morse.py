@@ -1,0 +1,126 @@
+#!/bin/env python3
+
+"""
+Lee de su entrada enstandar y saca por su salida estandar el texto en morse.
+Las letras que no reconozca las sustituyepor <unk>
+Conserva el formato el formato de espacios en blanco y saltos de carro
+"""
+
+import os, sys
+
+_dmorse={
+    'A': '.-',
+    'B': '-...',
+    'C': '-.-.',
+    'CH': '----',
+    'D': '-..',
+    'E': '.',
+    'F': '..-.',
+    'G': '--.',
+    'H': '....',
+    'I': '..',
+    'J': '.---',
+    'K': '-.-',
+    'L': '.-..',
+    'M': '--',
+    'N': '-.',
+    'Ñ': '--.--',
+    'O': '---',
+    'P': '.--.',
+    'Q': '--.-',
+    'R': '.-.',
+    'S': '...',
+    'T': '-',
+    'U': '..-',
+    'V': '...-',
+    'W': '.--',
+    'X': '-..-',
+    'Y': '-.--',
+    'Z': '--..',
+    '0': '-----',
+    '1': '.----',
+    '2': '..---',
+    '3': '...--',
+    '4': '....-',
+    '5': '.....',
+    '6': '-....',
+    '7': '--...',
+    '8': '---..',
+    '9': '----.',
+    '.': '.-.-.-',
+    ',': '--..--',
+    '?': '..--..',
+    '"': '· − · · − ·',
+    '\'': '· − − − − ·'
+}
+#----------------------------------------------------
+
+def cmorse(c):
+    if c in _dmorse:
+        return _dmorse[c]
+    else:
+        if c == ' ': return ' '
+        if c == '/n' : return '/n'
+        return f"<unk,{c}>"
+#---------------------------------------------------
+
+def decode(line):
+    l=line.strip().split()
+    for e in l:
+        for v, value in enumerate(_dmorse):
+            if e == value:
+                ...
+
+
+#####################################################
+    
+if __name__=="__main__":
+   
+    source = sys.stdin
+    action = 'c'
+    
+    for i, arg in enumerate(sys.argv):
+        if i == 0: continue
+        if arg[:11] == "--filename=":
+            filename = arg[11:]
+            assert os.path.isfile(filename)
+            assert os.path.exists(filename)
+            source = open(filename, "rt")
+        
+        if arg == "--to-ascii":
+            action = "d"
+    
+    for line in source:
+        line = line.upper()
+        
+        if action == 'c':
+            s = 0
+            for c in line:
+
+                if s == 0:
+                    if c == 'C':
+                        s = 1
+                    else:
+                        m = cmorse(c)
+                        print(f" {m}", end='', file=sys.stdout)
+                        s = 0
+
+                elif s == 1:
+                    if c == 'H':
+                        m = cmorse('CH')
+                        print(f" {m}", end='', file=sys.stdout)
+                        s = 0
+                    else:
+                        m = cmorse('C')
+                        print(f" {m}", end='', file=sys.stdout)
+                        m = cmorse(c)
+                        print(f" {m}", end='', file=sys.stdout)
+                        s = 0
+        else:
+            assert action == "d"
+            l = decode(line)
+
+    if source != sys.stdin:
+        source.close()
+            
+            
