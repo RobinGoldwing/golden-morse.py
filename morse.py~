@@ -96,7 +96,7 @@ if __name__=="__main__":
             assert os.path.exists(filename)
             source = open(filename, "rt")
         
-        if arg[:11] == "--to-ascii":
+        if arg == "--to-ascii":
             action = "d"
     
     for line in source:
